@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  minecraft:
+    build:
+      context: .
+      args:
+        - SERVER_VERSION=${SERVER_VERSION}
+    ports:
+      - "25565:25565"
+      - "25575:25575"
+    volumes:
+      - ${WORLD_PATH}:/world
+      - ${SERVER_PROPERTIES_PATH}:/minecraft/server.properties
+    deploy:
+      restart_policy:
+        condition: "on-failure"
+        delay: 10s
+        max_attempts: 3
+        window: 60s
+      resources:
+        limits:
+          cpus: "0.9"
+          memory: "4096M"
+        reservations:
+          cpus: "0.3"
+          memory: "512M"
