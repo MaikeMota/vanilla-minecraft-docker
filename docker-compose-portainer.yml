@@ -2,6 +2,7 @@ version: "3.2"
 
 services:
   minecraft:
+    image: maikemota/vanilla-minecraft:${SERVER_VERSION}
     ports:
       - "25565:25565"
       - "25575:25575"
