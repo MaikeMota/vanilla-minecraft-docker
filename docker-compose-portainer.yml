@@ -4,8 +4,8 @@ services:
   minecraft:
     image: maikemota/vanilla-minecraft:${SERVER_VERSION}
     ports:
-      - "25565:25565"
-      - "25575:25575"
+      - "${SERVER_PORT}:25565"
+      - "${RCON_PORT}:25575"
     volumes:
       - ${WORLD_PATH}:/world
       - ${SERVER_PROPERTIES_PATH}:/minecraft/server.properties
