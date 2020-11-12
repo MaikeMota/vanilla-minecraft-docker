@@ -27,3 +27,4 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: maikemota/vanilla-minecraft:$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          build_args: SERVER_VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
