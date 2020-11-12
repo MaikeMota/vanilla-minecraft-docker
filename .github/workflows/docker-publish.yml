@@ -14,20 +14,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        
+      - name: Build image
         env:
           SERVER_VERSION: $(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
           TAG: maikemota/vanilla-minecraft:$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-          
-      - name: Echo Server Version
-        run: $(echo $SERVER_VERSION)
-        
-      - name: Echo TAG
-        run: $(echo $TAG)
-        
-      - name: Echo REPO
-        run: $(echo $REPO)
-        
-      - name: Build image
         run: docker build . --tag  --build-arg SERVER_VERSION=$(echo "${{ SERVER_VERSION }}")
 
       - name: Push image
