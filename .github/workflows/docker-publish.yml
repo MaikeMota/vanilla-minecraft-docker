@@ -2,7 +2,7 @@ name: Build and Publish
 on:
   push:
     tags:
-      - '*'
+      - '[0-9]*.[0-9]*.[0-9]*'
 
 jobs:
   push:
@@ -12,12 +12,20 @@ jobs:
           
       - name: Checkout
         uses: actions/checkout@v2
+      
+      - name: Login to DockerHub
+        uses: docker/login-action@v1 
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
         
       - name: Build and push Docker images
         uses: docker/build-push-action@v1
+        env:
+          TAG: $(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: maikemota/vanilla-minecraft
+          repository: maikemota/vanilla-minecraft:${{ TAG }}
           push: ${{ startsWith(github.ref, 'refs/tags/') }}
-          build_args: SERVER_VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          build_args: SERVER_VERSION=${{ TAG }}
