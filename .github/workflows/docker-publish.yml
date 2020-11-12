@@ -1,21 +1,13 @@
 name: Build and Publish
 on:
   push:
-    branches:    
-    - main
     tags:
       - '*'
 
 jobs:
-  # Push image to GitHub Packages.
-  # See also https://docs.docker.com/docker-hub/builds/      
   push:
-    env:
-      SERVER_VERSION: echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,'
-
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && ${{ startsWith(github.ref, 'refs/tags/') }}
-
     steps:
           
       - name: Checkout
@@ -28,4 +20,4 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: maikemota/vanilla-minecraft
           push: ${{ startsWith(github.ref, 'refs/tags/') }}
-          build_args: SERVER_VERSION=${{SERVER_VERSION}}
+          build_args: SERVER_VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
