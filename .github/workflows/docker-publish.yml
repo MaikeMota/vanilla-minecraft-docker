@@ -1,12 +1,8 @@
-name: Docker
-
+name: Build and Publish
 on:
   push:
     tags:
       - '*'
-
-env:
-  IMAGE_NAME: vanilla-minecraft
 
 jobs:
   # Push image to GitHub Packages.
