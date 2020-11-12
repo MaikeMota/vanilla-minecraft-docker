@@ -1,6 +1,8 @@
 name: Build and Publish
 on:
   push:
+    branches:    
+    - main
     tags:
       - '*'
 
@@ -16,14 +18,12 @@ jobs:
       - uses: actions/checkout@v2
         
       - name: Build image
-        env:
-          SERVER_VERSION: ${{ github.ref }}
-          TAG: maikemota/vanilla-minecraft:${{SERVER_VERSION}}
-        run: docker build . --tag  --build-arg SERVER_VERSION=${{SERVER_VERSION}}
+        run: |
+          docker build . --tag  maikemota/vanilla-minecraft:${{ github.ref }} --build-arg SERVER_VERSION=${{ github.ref }} 
 
       - name: Push image
         uses: docker/build-push-action@v1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: ${{ TAG }}
+          repository: aikemota/vanilla-minecraft:${{ github.ref }}
