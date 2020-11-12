@@ -19,7 +19,7 @@ jobs:
         run: docker build . --file Dockerfile --tag $IMAGE_NAME --build-arg SERVER_VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
 
       - name: Push image
-         docker/build-push-action@v1
+        uses: docker/build-push-action@v1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
