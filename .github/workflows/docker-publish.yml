@@ -16,8 +16,7 @@ jobs:
       - uses: actions/checkout@v2
         env:
           SERVER_VERSION: $(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-          TAG: maikemota/vanilla-minecraft:${SERVER_VERSION}
-          REPO: maikemota/vanilla-minecraft:$(echo "${{ $TAG }}")
+          TAG: maikemota/vanilla-minecraft:$(echo "${{SERVER_VERSION}}")
           
       - name: Echo Server Version
         run: $(echo $SERVER_VERSION)
@@ -36,4 +35,4 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: $(echo "${{ REPO }}")
+          repository: $(echo "${{ TAG }}")
