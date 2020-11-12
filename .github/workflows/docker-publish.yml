@@ -15,16 +15,14 @@ jobs:
     if: github.event_name == 'push'
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
         
-      - name: Build image
-        run: |
-          docker build . --tag  maikemota/vanilla-minecraft:$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,') --build-arg SERVER_VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-
-      - name: Push image
+      - name: Build and push Docker images
         uses: docker/build-push-action@v1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: maikemota/vanilla-minecraft:$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          repository: maikemota/vanilla-minecraft
+          push: ${{ startsWith(github.ref, 'refs/tags/') }}
           build_args: SERVER_VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
