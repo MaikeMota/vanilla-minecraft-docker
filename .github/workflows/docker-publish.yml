@@ -17,9 +17,15 @@ jobs:
         env:
           SERVER_VERSION: $(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
           TAG: maikemota/vanilla-minecraft:${SERVER_VERSION}
-
+          
+      - name: Echo Server Version
+        run: echo $SERVER_VERSION
+        
+      - name: Echo TAG
+        run: echo $TAG
+        
       - name: Build image
-        run: docker build . --file Dockerfile --tag $TAG --build-arg SERVER_VERSION=${SERVER_VERSION}
+        run: docker build . --file Dockerfile --tag $TAG --build-arg SERVER_VERSION=$SERVER_VERSION
 
       - name: Push image
         uses: docker/build-push-action@v1
