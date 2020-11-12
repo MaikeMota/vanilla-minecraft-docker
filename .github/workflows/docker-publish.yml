@@ -19,11 +19,11 @@ jobs:
         
       - name: Build image
         run: |
-          docker build . --tag  maikemota/vanilla-minecraft:${{ github.ref }} --build-arg SERVER_VERSION=${{ github.ref }} 
+          docker build . --tag  maikemota/vanilla-minecraft:$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,') --build-arg SERVER_VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
 
       - name: Push image
         uses: docker/build-push-action@v1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: aikemota/vanilla-minecraft:${{ github.ref }}
+          repository: aikemota/vanilla-minecraft:$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
