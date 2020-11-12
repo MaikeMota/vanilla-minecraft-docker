@@ -1,14 +1,13 @@
 name: Docker Image CI
-
 on:
   push:
     tags: '*'
 jobs:
 
   build:
-    env:
-      SOURCE_TAG: ${{ steps.branch_name.outputs.SOURCE_TAG }}
     runs-on: ubuntu-latest
+    env: 
+      SOURCE_TAGE: ${{ steps.branch_name.outputs.SOURCE_TAG }}
 
     steps:
     - uses: actions/checkout@v2
