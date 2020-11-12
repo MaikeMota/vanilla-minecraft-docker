@@ -17,19 +17,23 @@ jobs:
         env:
           SERVER_VERSION: $(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
           TAG: maikemota/vanilla-minecraft:${SERVER_VERSION}
+          REPO: maikemota/vanilla-minecraft:$(echo "${{ $TAG }}")
           
       - name: Echo Server Version
-        run: echo $SERVER_VERSION
+        run: $(echo $SERVER_VERSION)
         
       - name: Echo TAG
-        run: echo $TAG
+        run: $(echo $TAG)
+        
+      - name: Echo REPO
+        run: $(echo $REPO)
         
       - name: Build image
-        run: docker build . --tag maikemota/vanilla-minecraft:$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')} --build-arg SERVER_VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+        run: docker build . --tag  --build-arg SERVER_VERSION=$(echo "${{ $TAG }}")
 
       - name: Push image
         uses: docker/build-push-action@v1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: $(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          repository: $(echo "${{ REPO }}")
