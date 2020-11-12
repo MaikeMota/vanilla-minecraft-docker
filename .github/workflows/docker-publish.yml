@@ -12,17 +12,15 @@ jobs:
           
       - name: Checkout
         uses: actions/checkout@v2
-        
-      - name: set environment variables
-        uses: allenevans/set-env@v2.0.0
-        with:
-          TAG: $(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+
+      - uses: nimblehq/branch-tag-action@v1
+        id: extract
         
       - name: Build and push Docker images
         uses: docker/build-push-action@v1
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-          repository: maikemota/vanilla-minecraft:$(echo "${TAG}")
+          repository: maikemota/vanilla-minecraft:${{ env.BRANCH_TAG }}
           push: ${{ startsWith(github.ref, 'refs/tags/') }}
-          build_args: SERVER_VERSION=$(echo "${TAG}")
+          build_args: SERVER_VERSION=${{ env.BRANCH_TAG }}
