@@ -26,4 +26,4 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: maikemota/vanilla-minecraft
           push: ${{ startsWith(github.ref, 'refs/tags/') }}
-          build_args: SERVER_VERSION=${{ env.SERVER_VERSION }}
+          build_args: SERVER_VERSION=${{ SERVER_VERSION }}
