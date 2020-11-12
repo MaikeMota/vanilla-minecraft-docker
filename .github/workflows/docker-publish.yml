@@ -8,16 +8,15 @@ on:
 
 jobs:
   # Push image to GitHub Packages.
-  # See also https://docs.docker.com/docker-hub/builds/
+  # See also https://docs.docker.com/docker-hub/builds/      
   push:
+    env:
+      SERVER_VERSION: echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,'
 
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && ${{ startsWith(github.ref, 'refs/tags/') }}
 
     steps:
-      - name: Generate tag
-        run: |
-          $(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,' > TAG)
           
       - name: Checkout
         uses: actions/checkout@v2
