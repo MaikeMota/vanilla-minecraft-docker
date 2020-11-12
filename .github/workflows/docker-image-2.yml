@@ -7,10 +7,10 @@ jobs:
 
   build:
     env:
-      SERVER_VERSION: ${{ steps.branch_name.outputs.SOURCE_TAG }}
+      SOURCE_TAG: ${{ steps.branch_name.outputs.SOURCE_TAG }}
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:${{SERVER_VERSION}}
+    - name: Build the Docker image}
+      run: docker build . --tag maikemota/vanilla-minecraft:${SOURCE_TAG}
