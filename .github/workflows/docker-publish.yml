@@ -17,7 +17,7 @@ jobs:
     steps:
       - name: Generate tag
         run: |
-          $(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,') > TAG
+          $(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,' > TAG)
           
       - name: Checkout
         uses: actions/checkout@v2
