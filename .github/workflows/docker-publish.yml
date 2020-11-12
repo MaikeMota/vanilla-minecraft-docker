@@ -13,10 +13,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - uses: nimblehq/branch-tag-action@v1
-        id: extract
-        with: 
-          ref: $(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+      - name: Extract Tag
+        run: |
+          echo "::set-env name=BRANCH_TAG::${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,'"
+          echo "::set-output name=branch_tag::${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,'"
         
       - name: Build and push Docker images
         uses: docker/build-push-action@v1
